@@ -87,5 +87,5 @@ pipeline {
                 sh 'docker system prune -af'
             }
         }
-        
+    }  
 }
