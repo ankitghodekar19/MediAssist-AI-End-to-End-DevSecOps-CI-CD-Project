@@ -73,11 +73,19 @@ pipeline {
                 sh 'docker push $AI_IMAGE:latest'
             }
         }
+        stage('Deploy') {
+            steps {
+                sh 'docker compose down'
+                sh 'docker compose pull'
+                sh 'docker compose up -d'
+            }
+        }
+    
 
         stage('Cleanup') {
             steps {
                 sh 'docker system prune -af'
             }
         }
-    }
+        
 }

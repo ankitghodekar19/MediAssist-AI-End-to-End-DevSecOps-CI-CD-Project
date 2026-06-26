@@ -19,7 +19,7 @@ services:
       - test-network
 
   backend:
-    image: ankitghodekar/health-backend:8
+    image: ankitghodekar/health-backend:latest
     container_name: test-backend
     ports:
       - "3000:3000"
@@ -32,7 +32,7 @@ services:
       - test-network
 
   ai-service:
-    image: ankitghodekar/health-ai:8
+    image: ankitghodekar/health-ai:latest
     container_name: test-ai
     ports:
       - "5000:5000"
@@ -40,7 +40,7 @@ services:
       - test-network
 
   frontend:
-    image: ankitghodekar/health-frontend:8
+    image: ankitghodekar/health-frontend:latest
     container_name: test-frontend
     ports:
       - "8000:8000"
