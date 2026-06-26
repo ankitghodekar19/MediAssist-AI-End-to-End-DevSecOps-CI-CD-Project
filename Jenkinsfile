@@ -62,7 +62,6 @@ pipeline {
 
         stage('Push Images') {
             steps {
-
                 sh 'docker push $BACKEND_IMAGE:$BUILD_TAG'
                 sh 'docker push $BACKEND_IMAGE:latest'
 
@@ -73,6 +72,7 @@ pipeline {
                 sh 'docker push $AI_IMAGE:latest'
             }
         }
+
         stage('Deploy') {
             steps {
                 sh 'docker compose down'
@@ -80,12 +80,11 @@ pipeline {
                 sh 'docker compose up -d'
             }
         }
-    
 
         stage('Cleanup') {
             steps {
                 sh 'docker system prune -af'
             }
         }
-    }  
+    }
 }
