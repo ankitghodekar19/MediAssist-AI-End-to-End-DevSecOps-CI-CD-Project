@@ -49,50 +49,22 @@ pipeline {
 
             }
         }
-        stage('OWASP Dependency Check') {
-            steps {
-
-                withCredentials([
-                    string(credentialsId: 'nvd-api-key',
-                        variable: 'NVD_API_KEY')
-                ]) {
-
-                    dependencyCheck(
-                        odcInstallation: 'dc',
-                        additionalArguments: """
-                            --scan . \
-                            --nvdApiKey ${NVD_API_KEY}
-                        """
-                    )
-                }
-            }
-        }
-
-        stage('Publish OWASP Report') {
-            steps {
-
-                dependencyCheckPublisher(
-                    pattern: '**/dependency-check-report.xml'
-                )
-
-                publishHTML(target: [
-                    allowMissing: true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: '.',
-                    reportFiles: 'dependency-check-report.html',
-                    reportName: 'OWASP Dependency Check Report'
-                ])
-            }
-        }
         // stage('OWASP Dependency Check') {
         //     steps {
 
-        //         dependencyCheck(
-        //             odcInstallation: 'dc',
-        //             additionalArguments: '--scan .'
-        //         )
+        //         withCredentials([
+        //             string(credentialsId: 'nvd-api-key',
+        //                 variable: 'NVD_API_KEY')
+        //         ]) {
 
+        //             dependencyCheck(
+        //                 odcInstallation: 'dc',
+        //                 additionalArguments: """
+        //                     --scan . \
+        //                     --nvdApiKey ${NVD_API_KEY}
+        //                 """
+        //             )
+        //         }
         //     }
         // }
 
@@ -104,16 +76,44 @@ pipeline {
         //         )
 
         //         publishHTML(target: [
-        //                 allowMissing: true,
-        //                 alwaysLinkToLastBuild: true,
-        //                 keepAll: true,
-        //                 reportDir: '.',
-        //                 reportFiles: 'dependency-check-report.html',
-        //                 reportName: 'OWASP Dependency Check Report'
+        //             allowMissing: true,
+        //             alwaysLinkToLastBuild: true,
+        //             keepAll: true,
+        //             reportDir: '.',
+        //             reportFiles: 'dependency-check-report.html',
+        //             reportName: 'OWASP Dependency Check Report'
         //         ])
-
         //     }
         // }
+        stage('OWASP Dependency Check') {
+            steps {
+
+                dependencyCheck(
+                    odcInstallation: 'dc',
+                    additionalArguments: '--scan .'
+                )
+
+            }
+        }
+
+        stage('Publish OWASP Report') {
+            steps {
+
+                dependencyCheckPublisher(
+                    pattern: '**/dependency-check-report.xml'
+                )
+
+                publishHTML(target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: '.',
+                        reportFiles: 'dependency-check-report.html',
+                        reportName: 'OWASP Dependency Check Report'
+                ])
+
+            }
+        }
 
         stage('Trivy Filesystem Scan') {
             steps {
