@@ -20,21 +20,19 @@ pipeline {
                 checkout scm
             }
         }
-
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                script {
+                    def scannerHome = tool 'sonar'
 
-                    withCredentials([string(credentialsId: 'sonar',
-                                            variable: 'sonar')]) {
+                    withSonarQubeEnv('sonar') {
 
-                        sh '''
-                        sonar-scanner \
+                        sh """
+                        ${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=MediAssist-AI \
                         -Dsonar.projectName=MediAssist-AI \
-                        -Dsonar.sources=. \
-                        -Dsonar.token=$SONAR_TOKEN
-                        '''
+                        -Dsonar.sources=.
+                        """
                     }
                 }
             }
