@@ -340,7 +340,7 @@ pipeline {
                 subject: "Jenkins Build SUCCESS #${BUILD_NUMBER}",
                 body: "Build ${BUILD_NUMBER} completed successfully.",
                 to: "ankit.22210961@viit.ac.in"
-                "
+                
             )
 
         }
