@@ -314,7 +314,7 @@ pipeline {
                 sh '''
                 sleep 20
 
-                curl -f http://localhost:3000
+                curl -f http://localhost:3000/health
                 curl -f http://localhost:5000
                 curl -f http://localhost:8000
                 '''
