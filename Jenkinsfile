@@ -48,32 +48,65 @@ pipeline {
                 }
 
             }
-        }
+        }   
         stage('OWASP Dependency Check') {
             steps {
+
                 dependencyCheck(
                     odcInstallation: 'dc',
-                    additionalArguments: '--scan .'
+                    additionalArguments: '''
+                        --scan .
+                        --format HTML
+                        --format XML
+                        --out dependency-check-report
+                    '''
                 )
             }
         }
 
         stage('Publish OWASP Report') {
             steps {
+
                 dependencyCheckPublisher(
-                    pattern: '**/dependency-check-report.xml'
+                    pattern: 'dependency-check-report/dependency-check-report.xml'
                 )
 
                 publishHTML(target: [
-                    allowMissing: true,
+                    allowMissing: false,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    reportDir: '.',
+                    reportDir: 'dependency-check-report',
                     reportFiles: 'dependency-check-report.html',
                     reportName: 'OWASP Dependency Check Report'
                 ])
             }
         }
+        // }
+        // stage('OWASP Dependency Check') {
+        //     steps {
+        //         dependencyCheck(
+        //             odcInstallation: 'dc',
+        //             additionalArguments: '--scan .'
+        //         )
+        //     }
+        // }
+
+        // stage('Publish OWASP Report') {
+        //     steps {
+        //         dependencyCheckPublisher(
+        //             pattern: '**/dependency-check-report.xml'
+        //         )
+
+        //         publishHTML(target: [
+        //             allowMissing: true,
+        //             alwaysLinkToLastBuild: true,
+        //             keepAll: true,
+        //             reportDir: '.',
+        //             reportFiles: 'dependency-check-report.html',
+        //             reportName: 'OWASP Dependency Check Report'
+        //         ])
+        //     }
+        // }
         // stage('OWASP Dependency Check') {
         //     steps {
 
