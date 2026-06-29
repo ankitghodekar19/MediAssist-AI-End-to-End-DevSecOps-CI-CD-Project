@@ -339,7 +339,8 @@ pipeline {
             emailext(
                 subject: "Jenkins Build SUCCESS #${BUILD_NUMBER}",
                 body: "Build ${BUILD_NUMBER} completed successfully.",
-                to: "yourmail@gmail.com"
+                to: "ankit.22210961@viit.ac.in
+                "
             )
 
         }
@@ -349,7 +350,7 @@ pipeline {
             emailext(
                 subject: "Jenkins Build FAILED #${BUILD_NUMBER}",
                 body: "Build ${BUILD_NUMBER} failed. Please check Jenkins.",
-                to: "yourmail@gmail.com"
+                to: "ankit.22210961@viit.ac.in"
             )
 
         }
